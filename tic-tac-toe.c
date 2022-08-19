@@ -13,6 +13,9 @@ int threeDiagonal() {
 }
 
 int isFilled(char positionValue) {
+    if (positionValue == '-') {
+        return 1;
+    }
     return 0;
 }
 
@@ -32,6 +35,20 @@ void printBoard(char board[3][3]) {
     return;
 }
 
+void playerDo(char board[3][3]) {
+    printf("Choose an empty position. Enter x and y positions as double digit number.\n");
+    //Process two ints as position, check if filled
+    printBoard(board);
+    return;
+}
+
+void computerDo(char board[3][3]) {
+    printf("Computer is making a move...\n");
+    //Randomly choose empty position
+    printBoard(board);
+    return;
+}
+
 int main() {
     printf("Welcome to tic-tac-toe!\n");
     char board[3][3] = {{'-', '-', '-'}, {'-', '-', '-'}, {'-', '-', '-'}}; // rows x columns
@@ -43,6 +60,8 @@ int main() {
     
     char computerChar;
     int playerTurn;
+    int gameOver = 0;
+
     if (playerChar == 'X' || playerChar == 'x') {
         computerChar = 'O';
         playerTurn = 1;
@@ -55,8 +74,21 @@ int main() {
         printf("Invalid entry. Enter X or O.");
         return 1;
     }
+
+    while(gameOver == 0) {
+        if (playerTurn == 0) { // Computer turn
+            computerDo(board);
+        }
+        else { // Player turn
+            playerDo(board);
+        }
+
+        if(threeAcross() == 1 || threeDown() == 1 || threeDiagonal() == 1) {
+            gameOver = 1;
+        }
+    }
     
     return 0;
 }
 
-//TODO: player select X (first) or O (second), player turn, computer turn, check if move valid, check if game over
+//TODO: player turn, computer turn, check if move valid, check if game over
